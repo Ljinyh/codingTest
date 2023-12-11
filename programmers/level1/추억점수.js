@@ -18,8 +18,10 @@
 - photo[i]의 원소들은 중복된 값이 들어가지 않습니다.
 */
 
+
 function solution(name, yearning, photo) {
-    var answer = [];
+    console.time('s1');
+    let answer = [];
 
     let obj = {};
 
@@ -30,18 +32,35 @@ function solution(name, yearning, photo) {
     for (let i = 0, il = photo.length; i < il; i++) {
         let sum = 0;
 
-        for (let j = 0, jl = photo[i].length; j < jl; j++) {
-            sum += obj[photo[i][j]] ? obj[photo[i][j]] : 0;
-        }
-
+        for (let j = 0, jl = photo[i].length; j < jl; j++)  sum += obj[photo[i][j]] ?? 0;
         answer.push(sum);
 
+        //* sum 초기화
         sum = 0;
     }
+    console.timeEnd('s1');
+    return answer;
+}
+
+function solution2(name, yearning, photo) {
+    console.time('s2');
+    let obj = {};
+
+    name.map((el, idx) => obj[el] = yearning[idx]);
+
+    const answer = photo.map(el => {
+        let count = 0;
+        el.map(name => count += obj[name] ?? 0);
+        return count;
+    });
+    console.timeEnd('s2');
 
     return answer;
 }
 
-
-console.log(solution(["may", "kein", "kain", "radi"], [5, 10, 1, 3], [["may", "kein", "kain", "radi"], ["may", "kein", "brin", "deny"], ["kon", "kain", "may", "coni"]]));
 // return [19, 15, 6]
+solution(["may", "kein", "kain", "radi"], [5, 10, 1, 3], [["may", "kein", "kain", "radi"], ["may", "kein", "brin", "deny"], ["kon", "kain", "may", "coni"]]);
+solution2(["may", "kein", "kain", "radi"], [5, 10, 1, 3], [["may", "kein", "kain", "radi"], ["may", "kein", "brin", "deny"], ["kon", "kain", "may", "coni"]]);
+
+
+// 처리 시간: s1 > s2
